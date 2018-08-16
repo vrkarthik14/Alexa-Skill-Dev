@@ -110,19 +110,66 @@ def get_welcome_response(user_id):
 
 
 def set_name(intent, session,dialog_state):
-    arr = [0] * 2
-    slots = intent['slots']
-    for i, slot in enumerate(slots):
-        if 'value' in slots[slot]:
-            arr[i] = 1
+    name = intent['slots']['name']['value']
+    user_id = session['user']['userId'].split('.')[3]
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+    table = dynamodb.Table('user_id_name')
 
-    if dialog_state in ("STARTED", "IN_PROGRESS"):
-        return continue_dialog1(intent,session, arr)
-    elif dialog_state == "COMPLETED":
-        return statement("trip_intent", "Have a good trip")
-    else:
-        return statement("trip_intent", "No dialog")
-   
+    table.put_item(
+        Item={
+            'ID': user_id,
+            'Name': name,
+            'CanShare':'False',
+            'PhNo':'None'
+        })
+
+    card_title = "Name received"
+    speech_output = "Thank You " + name +" "+". Would you like to share your phone number to connect with people with similar interest in food and place?"
+    reprompt_text = "Thank You " + name +" "+". Would you like to share your phone number to connect with people with similar interest in food and place?"
+    session_attributes = {}
+    should_end_session = False
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def set_phone_number(intent,session,dialog_state):
+    if intent['name'] == "AMAZON.YesIntent":
+        card_title = "Permission Grated"
+        speech_output = "Thank You. Please speak out your phone number"
+        reprompt_text = "Thank You. Please speak out your phone number"
+        session_attributes = {}
+        should_end_session = False
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session))
+    elif intent['name'] == 'AMAZON.NoIntent':
+        card_title = "Response received"
+        speech_output = "Thank You for your response. Would you like to share your day ?"
+        reprompt_text = "Thank You for your response. Would you like to share your day ?"
+        session_attributes = {}
+        should_end_session = False
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session))
+    elif intent['name'] == 'SharePhoneNumber':
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+        table = dynamodb.Table('user_id_name')
+        user_id = session['user']['userId'].split('.')[3]
+        row = table.query(KeyConditionExpression=(Key('ID').eq(user_id)))
+        name = row['Items'][0]['Name']
+        PhNo = intent['slots']['PhoneNumber']['value']
+        table.put_item(
+        Item={
+            'ID': user_id,
+            'Name': name,
+            'CanShare':'True',
+            'PhNo': PhNo
+        })
+        card_title = "PhoneNumber received"
+        speech_output = "Thank You. Would you like to share your day or connect to people with similar interest in food and place?"
+        reprompt_text = "Thank You. Would you like to share your day or connect to people with similar interest in food and place?"
+        session_attributes = {}
+        should_end_session = False
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, speech_output, reprompt_text, should_end_session))
+       
 
 def build_response2(message, session_attributes={}):
     response = {}
@@ -130,43 +177,6 @@ def build_response2(message, session_attributes={}):
     response['sessionAttributes'] = session_attributes
     response['response'] = message
     return response
-    
-def continue_dialog1(intent,session,arr):
-    if not arr[0]:
-        dir = [{"type": "Dialog.ElicitSlot", "slotToElicit": "name", "updatedIntent": intent}]
-        out_speech = "What is your name?"
-    elif not arr[1]:
-        dir = [{"type": "Dialog.ElicitSlot", "slotToElicit": "PhoneNumber", "updatedIntent": intent}]
-        out_speech = "Please speak out your phone number for connecting with people with similar interest?"
-    else:
-        name = intent['slots']['name']['value']
-        user_id = session['user']['userId'].split('.')[3]
-        phoneNumber = intent['slots']['PhoneNumber']['value']
-        dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-        table = dynamodb.Table('user_id_name')
-        
-        table.put_item(
-            Item={
-                'ID': user_id,
-                'Name': name,
-                'PhNo':phoneNumber,
-                'CanShare':'True'
-            })
-        card_title = "Name received"
-        speech_output = "Thank You " + name +" "+". Would you like to share your day or would you like to connect with people?"
-        reprompt_text = "Thank You " + name +" "+". Would you like to share your day or would you like to get some suggestions?"
-        session_attributes = {}
-        should_end_session = False
-        return build_response(session_attributes, build_speechlet_response(
-            card_title, speech_output, reprompt_text, should_end_session))
-    message = {}
-    message['shouldEndSession'] = False
-    message['directives'] = dir
-    message["outputSpeech"] = {"type": "PlainText", "text": out_speech}
-    message["card"] = {"type": "Simple", "title": "SessionSpeechlet - Welcome",
-                       "content": "SessionSpeechlet - Hey Vikas"}
-    message["reprompt"] = {"outputSpeech": {"type": "PlainText", "text": out_speech}}
-    return build_response2(message)
 
 def continue_dialog(intent, session,arr):
     
@@ -269,6 +279,8 @@ def on_intent(intent_request, session):
 
     if intent_name == "TellYourName":
         return set_name(intent, session,intent_request["dialogState"])
+    elif intent_name == 'SharePhoneNumber' or intent_name == 'AMAZON.YesIntent' or intent_name == 'AMAZON.NoIntent':
+        return set_phone_number(intent, session,intent_request["dialogState"])
     elif intent_name == "MyDay":
         return my_day(intent, session, intent_request["dialogState"])
     elif intent_name == "PlaceConnect":

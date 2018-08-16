@@ -1,0 +1,422 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "my emotion",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "TellYourName",
+                    "slots": [
+                        {
+                            "name": "name",
+                            "type": "AMAZON.US_FIRST_NAME"
+                        }
+                    ],
+                    "samples": [
+                        "I am {name}",
+                        "I'm {name}",
+                        "My name is {name}"
+                    ]
+                },
+                {
+                    "name": "MyDay",
+                    "slots": [
+                        {
+                            "name": "Food",
+                            "type": "AMAZON.Food",
+                            "samples": [
+                                "{Food}",
+                                "I had {Food}"
+                            ]
+                        },
+                        {
+                            "name": "FoodExperience",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{FoodExperience}"
+                            ]
+                        },
+                        {
+                            "name": "Person",
+                            "type": "AMAZON.US_FIRST_NAME",
+                            "samples": [
+                                "I met {Person}"
+                            ]
+                        },
+                        {
+                            "name": "PersonExperience",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{PersonExperience}"
+                            ]
+                        },
+                        {
+                            "name": "Place",
+                            "type": "AMAZON.US_CITY",
+                            "samples": [
+                                "{Place}",
+                                "I had been to {Place}"
+                            ]
+                        },
+                        {
+                            "name": "PlaceExperience",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{PlaceExperience}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "I would like  to share my day",
+                        "Here is my day"
+                    ]
+                },
+                {
+                    "name": "FoodIntent",
+                    "slots": [
+                        {
+                            "name": "Food",
+                            "type": "AMAZON.Food",
+                            "samples": [
+                                "It is called {Food}",
+                                "{Food}"
+                            ]
+                        },
+                        {
+                            "name": "FoodEmotion",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{FoodEmotion}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "Add a new food emotion"
+                    ]
+                },
+                {
+                    "name": "FoodConnect",
+                    "slots": [],
+                    "samples": [
+                        "Find some one who likes same food as me.",
+                        "Connect me with some one who likes same food as me."
+                    ]
+                },
+                {
+                    "name": "PlaceConnect",
+                    "slots": [],
+                    "samples": [
+                        "Connect me with some one who likes same Place as me.",
+                        "Find some one who likes same Place as me."
+                    ]
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "SharePhoneNumber",
+                    "slots": [
+                        {
+                            "name": "PhoneNumber",
+                            "type": "AMAZON.PhoneNumber"
+                        }
+                    ],
+                    "samples": [
+                        "{PhoneNumber}"
+                    ]
+                }
+            ],
+            "types": []
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "MyDay",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "Food",
+                            "type": "AMAZON.Food",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.885120840643.1188656470100"
+                            }
+                        },
+                        {
+                            "name": "FoodExperience",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.885120840643.150322989111"
+                            }
+                        },
+                        {
+                            "name": "Person",
+                            "type": "AMAZON.US_FIRST_NAME",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.885120840643.189690901284"
+                            }
+                        },
+                        {
+                            "name": "PersonExperience",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.885120840643.871644377872"
+                            }
+                        },
+                        {
+                            "name": "Place",
+                            "type": "AMAZON.US_CITY",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1101418153430.937438552637"
+                            }
+                        },
+                        {
+                            "name": "PlaceExperience",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.316761220482.688542698546"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "FoodIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "Food",
+                            "type": "AMAZON.Food",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.233018536397.48087776423"
+                            }
+                        },
+                        {
+                            "name": "FoodEmotion",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.233018536397.826532180925"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "TellYourName",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "name",
+                            "type": "AMAZON.US_FIRST_NAME",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.775521193287.1076933097929"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Confirm.Slot.1192287092748.1318963346220",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Your name is {name} , right ?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1484817059437.588645895193",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is your name?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1484817059437.588645895193",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Your name is {Name} , correct?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.467089130535.1312834694173",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Where had been to  today?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.467089130535.664548764698",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How was it?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1101418153430.937438552637",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Where had you been to today?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.723350493784.420826681831",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How was it?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.723350493784.420826681831",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "{PlaceExperience}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.885120840643.189690901284",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Did you meet anyone today ,If yes tell me their name?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.885120840643.1188656470100",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What did you have today?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.885120840643.150322989111",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How was {Food}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.885120840643.871644377872",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How was your meeting with {Person}"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.885120840643.871644377872",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "{FoodExperience}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.316761220482.688542698546",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How was {Place}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.233018536397.48087776423",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the name of the food?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.233018536397.826532180925",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How was {Food}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.775521193287.1076933097929",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is you name?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1500870646166",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Do you want to share your phone number to connect to people with similar interest in food and place?"
+                    }
+                ]
+            }
+        ]
+    }
+}
